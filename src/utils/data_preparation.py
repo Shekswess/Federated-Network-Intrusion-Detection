@@ -2,21 +2,10 @@ import logging
 import os
 
 import pandas as pd
+from configs import BAD_COLUMN_MAPPING
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-
-binary_labels_mapping = {"Normal": 0, "Attack": 1}
-multi_class_labels_mapping = {
-    "Normal": 0,
-    "TCP-SYN": 1,
-    "Blackhole": 2,
-    "Diversion": 3,
-    "Overflow": 4,
-    "PortScan": 5,
-}
-bad_column_mapping = {" Delta Packets Tx Dropped": "Delta Packets Tx Dropped"}
-port_mapping = {"Port#:1": 1, "Port#:2": 2, "Port#:3": 3, "Port#:4": 4}
 
 
 def cleanse_data(dataframe: pd.DataFrame) -> pd.DataFrame:
@@ -83,14 +72,14 @@ def fix_bad_column(dataframe: pd.DataFrame) -> pd.DataFrame:
     :return: pd.DataFrame
     """
     logger.info("Fixing the bad column names")
-    dataframe = dataframe.rename(columns=bad_column_mapping)
+    dataframe = dataframe.rename(columns=BAD_COLUMN_MAPPING)
     logger.info("Bad column names fixed")
     return dataframe
 
 
 def split_data(dataframe: pd.DataFrame, process_data_path: str) -> None:
     """
-    Splits the data based on the SwitchID
+    Splits the data based on the Switch ID
     :param dataframe: pd.DataFrame
     :param process_data_path: str
     :return: None
@@ -109,20 +98,3 @@ def split_data(dataframe: pd.DataFrame, process_data_path: str) -> None:
     logger.info("Saving all data to a single file")
     dataframe.to_csv(os.path.join(process_data_path, "all.csv"), index=False)
     logger.info("All data saved to a single file")
-
-
-if __name__ == "__main__":
-    initial_data_path = r"D:\Work\Federated-Network-Intrusion-Detection\src\initial_dataset\UNR-IDD.csv"
-    process_data_path = (
-        r"D:\Work\Federated-Network-Intrusion-Detection\src\processed_dataset"
-    )
-    os.makedirs(process_data_path, exist_ok=True)
-    dataframe = pd.read_csv(initial_data_path)
-    dataframe = fix_bad_column(dataframe)
-    dataframe = drop_unused_columns(dataframe)
-    dataframe = cleanse_data(dataframe)
-    dataframe = map_labels(
-        dataframe, binary_labels_mapping, multi_class_labels_mapping
-    )
-    dataframe = map_ports(dataframe, port_mapping)
-    split_data(dataframe, process_data_path)
