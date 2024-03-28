@@ -2,7 +2,8 @@ import logging
 import os
 
 import pandas as pd
-from configs import BAD_COLUMN_MAPPING
+
+BAD_COLUMN_MAPPING = {" Delta Packets Tx Dropped": "Delta Packets Tx Dropped"}
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
