@@ -4,7 +4,6 @@ import sys
 import tempfile
 import warnings
 
-import matplotlib.pyplot as plt
 import mlflow as ml
 import pandas as pd
 
@@ -24,11 +23,12 @@ MULTI_CLASS_LABELS_MAPPING = {
     "Overflow": 4,
     "PortScan": 5,
 }
-NON_USABLE_SUBJECTS = [
-    "of_0000000000000007",
-    "of_0000000000000006",
-    "of_0000000000000005",
-    "of_0000000000000009",
+ALL_LABELS_SUBJECTS = [
+    "of_000000000000000c",
+    "of_000000000000000a",
+    "of_000000000000000b",
+    "of_0000000000000003",
+    "of_0000000000000004",
 ]
 
 warnings.filterwarnings("ignore")
@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-def XGBoost_LOOCV(dataframe: pd.DataFrame, exclude_subjects=None):
+def XGBoost_LOOCV(dataframe: pd.DataFrame, include_subjects=None):
     """
     Train and evaluate an XGBoost model using Leave-One-Out Cross-Validation (LOOCV).
     :param dataframe: pd.DataFrame
@@ -49,9 +49,9 @@ def XGBoost_LOOCV(dataframe: pd.DataFrame, exclude_subjects=None):
     list_of_subject = [
         subject for subject in dataframe[SUBJECT_COLUMN].unique().tolist()
     ]
-    if exclude_subjects:
+    if include_subjects:
         list_of_subject = [
-            subject for subject in list_of_subject if subject not in exclude_subjects
+            subject for subject in list_of_subject if subject in include_subjects
         ]
     for subject in list_of_subject:
         with ml.start_run(run_name=f"XGBoost_LOOCV_{subject}"):
@@ -87,14 +87,14 @@ def XGBoost_LOOCV(dataframe: pd.DataFrame, exclude_subjects=None):
                 "accuracy_avg": round(avr_accuracy, 2),
             }
         )
-        for matrix, subject in matrixes:
-            with tempfile.NamedTemporaryFile(suffix=".png") as file:
-                matrix.get_figure().savefig(file.name)
-                ml.log_artifact(file.name, f"confusion_matrix_{subject}.png")
+        # for matrix, subject in matrixes:
+        #     with tempfile.NamedTemporaryFile(suffix=".png") as file:
+        #         matrix.get_figure().savefig(file.name)
+        #         ml.log_artifact(file.name, f"confusion_matrix_{subject}.png")
         logger.info("Average scores logged")
 
 
-def TabNet_LOOCV(dataframe: pd.DataFrame, exclude_subjects=None):
+def TabNet_LOOCV(dataframe: pd.DataFrame, include_subjects=None):
     """
     Train and evaluate a TabNet model using Leave-One-Out Cross-Validation (LOOCV).
     :param dataframe: pd.DataFrame
@@ -106,9 +106,9 @@ def TabNet_LOOCV(dataframe: pd.DataFrame, exclude_subjects=None):
     list_of_subject = [
         subject for subject in dataframe[SUBJECT_COLUMN].unique().tolist()
     ]
-    if exclude_subjects:
+    if include_subjects:
         list_of_subject = [
-            subject for subject in list_of_subject if subject not in exclude_subjects
+            subject for subject in list_of_subject if subject not in include_subjects
         ]
     for subject in list_of_subject:
         with ml.start_run(run_name=f"TabNet_LOOCV_{subject}"):
@@ -144,32 +144,32 @@ def TabNet_LOOCV(dataframe: pd.DataFrame, exclude_subjects=None):
                 "accuracy_avg": round(avr_accuracy, 2),
             }
         )
-        for matrix, subject in matrixes:
-            with tempfile.NamedTemporaryFile(suffix=".png") as file:
-                matrix.get_figure().savefig(file.name)
-                ml.log_artifact(file.name, f"confusion_matrix_{subject}.png")
+        # for matrix, subject in matrixes:
+        #     with tempfile.NamedTemporaryFile(suffix=".png") as file:
+        #         matrix.get_figure().savefig(file.name)
+        #         ml.log_artifact(file.name, f"confusion_matrix_{subject}.png")
         logger.info("Average scores logged")
 
 
 if __name__ == "__main__":
     dataframe = pd.read_csv(
-        "/home/bojan-emteq/Work/Federated-Network-Intrusion-Detection/src/dataset/processed_dataset/all.csv"
+        r"D:\Work\Federated-Network-Intrusion-Detection\src\dataset\processed_dataset\all.csv"
     )
     logger.info("Starting the centralized inference pipeline")
-    ml.set_experiment("XGBoost_LOOCV")
-    logger.info("Starting the XGBoost LOOCV")
-    XGBoost_LOOCV(dataframe)
-    logger.info("Ending the XGBoost LOOCV")
-    ml.set_experiment("TabNet_LOOCV")
-    logger.info("Starting the TabNet LOOCV")
-    TabNet_LOOCV(dataframe)
-    logger.info("Ending the TabNet LOOCV")
+    # ml.set_experiment("XGBoost_LOOCV")
+    # logger.info("Starting the XGBoost LOOCV")
+    # XGBoost_LOOCV(dataframe)
+    # logger.info("Ending the XGBoost LOOCV")
+    # ml.set_experiment("TabNet_LOOCV")
+    # logger.info("Starting the TabNet LOOCV")
+    # TabNet_LOOCV(dataframe)
+    # logger.info("Ending the TabNet LOOCV")
     ml.set_experiment("XGBoost LOOCV excluded subjects")
     logger.info("Starting XGBoost LOOCV with excluded subjects")
-    XGBoost_LOOCV(dataframe, NON_USABLE_SUBJECTS)
+    XGBoost_LOOCV(dataframe, ALL_LABELS_SUBJECTS)
     logger.info("Ending the XGBoost LOOCV with excluded subjects")
     ml.set_experiment("TabNet LOOCV excluded subjects")
     logger.info("Starting the TabNet LOOCV with excluded subjects")
-    TabNet_LOOCV(dataframe, NON_USABLE_SUBJECTS)
+    TabNet_LOOCV(dataframe, ALL_LABELS_SUBJECTS)
     logger.info("Ending the TabNet LOOCV with excluded subjects")
     logger.info("Centralized inference pipeline completed")

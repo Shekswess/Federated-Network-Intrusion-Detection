@@ -60,3 +60,21 @@ def confusion_matrix_heatmap(
     plt.ylabel("Actual")
     plt.xlabel("Predicted")
     return matrix
+
+
+def plot_metrics(metrics: list[float], metric_name: str, title: str) -> plt.figure:
+    """
+    Plot the metrics
+    :param metrics: List of metrics
+    :param metric_name: Name of the metric
+    :param title: Title of the plot
+    :param save_path: Path to save the plot
+    """
+    plt.figure(figsize=(10, 10))
+    rounds = range(1, len(metrics) + 1)
+    plt.plot(rounds, metrics)
+    plt.title(title)
+    plt.ylabel(metric_name)
+    plt.xlabel("Round")
+    plt.xticks(rounds)
+    return plt
