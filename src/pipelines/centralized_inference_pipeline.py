@@ -24,6 +24,12 @@ MULTI_CLASS_LABELS_MAPPING = {
     "Overflow": 4,
     "PortScan": 5,
 }
+NON_USABLE_SUBJECTS = [
+    "of_0000000000000007",
+    "of_0000000000000006",
+    "of_0000000000000005",
+    "of_0000000000000009",
+]
 
 warnings.filterwarnings("ignore")
 
@@ -31,7 +37,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-def XGBoost_LOOCV(dataframe: pd.DataFrame):
+def XGBoost_LOOCV(dataframe: pd.DataFrame, exclude_subjects=None):
     """
     Train and evaluate an XGBoost model using Leave-One-Out Cross-Validation (LOOCV).
     :param dataframe: pd.DataFrame
@@ -43,6 +49,10 @@ def XGBoost_LOOCV(dataframe: pd.DataFrame):
     list_of_subject = [
         subject for subject in dataframe[SUBJECT_COLUMN].unique().tolist()
     ]
+    if exclude_subjects:
+        list_of_subject = [
+            subject for subject in list_of_subject if subject not in exclude_subjects
+        ]
     for subject in list_of_subject:
         with ml.start_run(run_name=f"XGBoost_LOOCV_{subject}"):
             logger.info(f"Training and evaluating the model for {subject}")
@@ -77,10 +87,6 @@ def XGBoost_LOOCV(dataframe: pd.DataFrame):
                 "accuracy_avg": round(avr_accuracy, 2),
             }
         )
-        for i, score in enumerate(f1_macro_scores):
-            ml.log_metric(f"f1_macro_score_{i}", round(score, 2))
-        for i, score in enumerate(accuracy_scores):
-            ml.log_metric(f"accuracy_score_{i}", round(score, 2))
         for matrix, subject in matrixes:
             with tempfile.NamedTemporaryFile(suffix=".png") as file:
                 matrix.get_figure().savefig(file.name)
@@ -88,7 +94,7 @@ def XGBoost_LOOCV(dataframe: pd.DataFrame):
         logger.info("Average scores logged")
 
 
-def TabNet_LOOCV(dataframe: pd.DataFrame):
+def TabNet_LOOCV(dataframe: pd.DataFrame, exclude_subjects=None):
     """
     Train and evaluate a TabNet model using Leave-One-Out Cross-Validation (LOOCV).
     :param dataframe: pd.DataFrame
@@ -100,6 +106,10 @@ def TabNet_LOOCV(dataframe: pd.DataFrame):
     list_of_subject = [
         subject for subject in dataframe[SUBJECT_COLUMN].unique().tolist()
     ]
+    if exclude_subjects:
+        list_of_subject = [
+            subject for subject in list_of_subject if subject not in exclude_subjects
+        ]
     for subject in list_of_subject:
         with ml.start_run(run_name=f"TabNet_LOOCV_{subject}"):
             logger.info(f"Training and evaluating the model for {subject}")
@@ -134,10 +144,6 @@ def TabNet_LOOCV(dataframe: pd.DataFrame):
                 "accuracy_avg": round(avr_accuracy, 2),
             }
         )
-        for i, score in enumerate(f1_macro_scores):
-            ml.log_metric(f"f1_macro_score_{i}", round(score, 2))
-        for i, score in enumerate(accuracy_scores):
-            ml.log_metric(f"accuracy_score_{i}", round(score, 2))
         for matrix, subject in matrixes:
             with tempfile.NamedTemporaryFile(suffix=".png") as file:
                 matrix.get_figure().savefig(file.name)
@@ -158,4 +164,12 @@ if __name__ == "__main__":
     logger.info("Starting the TabNet LOOCV")
     TabNet_LOOCV(dataframe)
     logger.info("Ending the TabNet LOOCV")
+    ml.set_experiment("XGBoost LOOCV excluded subjects")
+    logger.info("Starting XGBoost LOOCV with excluded subjects")
+    XGBoost_LOOCV(dataframe, NON_USABLE_SUBJECTS)
+    logger.info("Ending the XGBoost LOOCV with excluded subjects")
+    ml.set_experiment("TabNet LOOCV excluded subjects")
+    logger.info("Starting the TabNet LOOCV with excluded subjects")
+    TabNet_LOOCV(dataframe, NON_USABLE_SUBJECTS)
+    logger.info("Ending the TabNet LOOCV with excluded subjects")
     logger.info("Centralized inference pipeline completed")
