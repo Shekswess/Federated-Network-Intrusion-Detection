@@ -1,0 +1,6 @@
+artifact_location: file:///home/bojan-emteq/Work/Federated-Network-Intrusion-Detection/src/pipelines/mlruns/949492069772364286
+creation_time: 1711638837714
+experiment_id: '949492069772364286'
+last_update_time: 1711638837714
+lifecycle_stage: active
+name: XGBoost_LOOCV

@@ -1,0 +1,15 @@
+artifact_uri: file:///home/bojan-emteq/Work/Federated-Network-Intrusion-Detection/src/pipelines/mlruns/949492069772364286/cb88625324d741bab41a731a8dea183b/artifacts
+end_time: 1711638845477
+entry_point_name: ''
+experiment_id: '949492069772364286'
+lifecycle_stage: active
+run_id: cb88625324d741bab41a731a8dea183b
+run_name: XGBoost_LOOCV_of_000000000000000b
+run_uuid: cb88625324d741bab41a731a8dea183b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1711638842908
+status: 3
+tags: []
+user_id: bojan-emteq
