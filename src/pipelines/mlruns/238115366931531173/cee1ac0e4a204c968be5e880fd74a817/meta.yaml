@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Work/Federated-Network-Intrusion-Detection/src/federated_pipelines/mlruns/238115366931531173/cee1ac0e4a204c968be5e880fd74a817/artifacts
+end_time: 1711663223913
+entry_point_name: ''
+experiment_id: '238115366931531173'
+lifecycle_stage: active
+run_id: cee1ac0e4a204c968be5e880fd74a817
+run_name: xgboost_federated_5_clients_15_rounds
+run_uuid: cee1ac0e4a204c968be5e880fd74a817
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1711663223848
+status: 3
+tags: []
+user_id: jakim

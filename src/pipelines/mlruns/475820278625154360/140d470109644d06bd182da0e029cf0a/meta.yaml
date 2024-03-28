@@ -1,0 +1,16 @@
+artifact_uri: file:///D:/Work/Federated-Network-Intrusion-Detection/src/pipelines/mlruns/475820278625154360/140d470109644d06bd182da0e029cf0a/artifacts
+deleted_time: 1711661453741
+end_time: 1711661284054
+entry_point_name: ''
+experiment_id: '475820278625154360'
+lifecycle_stage: deleted
+run_id: 140d470109644d06bd182da0e029cf0a
+run_name: XGBoost_LOOCV_of_000000000000000b
+run_uuid: 140d470109644d06bd182da0e029cf0a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1711661281515
+status: 3
+tags: []
+user_id: jakim

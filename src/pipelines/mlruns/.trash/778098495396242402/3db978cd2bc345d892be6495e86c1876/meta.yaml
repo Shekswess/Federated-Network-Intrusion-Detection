@@ -1,0 +1,16 @@
+artifact_uri: file:///home/bojan-emteq/Work/Federated-Network-Intrusion-Detection/src/pipelines/mlruns/778098495396242402/3db978cd2bc345d892be6495e86c1876/artifacts
+deleted_time: 1711661086641
+end_time: 1711641021799
+entry_point_name: ''
+experiment_id: '778098495396242402'
+lifecycle_stage: deleted
+run_id: 3db978cd2bc345d892be6495e86c1876
+run_name: TabNet_LOOCV_of_0000000000000001
+run_uuid: 3db978cd2bc345d892be6495e86c1876
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1711640840139
+status: 3
+tags: []
+user_id: bojan-emteq

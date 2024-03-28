@@ -1,0 +1,6 @@
+artifact_location: file:///D:/Work/Federated-Network-Intrusion-Detection/src/pipelines/mlruns/188237335455164019
+creation_time: 1711661358294
+experiment_id: '188237335455164019'
+last_update_time: 1711661358294
+lifecycle_stage: active
+name: TabNet LOOCV excluded subjects

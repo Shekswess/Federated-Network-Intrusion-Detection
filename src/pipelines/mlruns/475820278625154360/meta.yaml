@@ -1,0 +1,6 @@
+artifact_location: file:///D:/Work/Federated-Network-Intrusion-Detection/src/pipelines/mlruns/475820278625154360
+creation_time: 1711661212759
+experiment_id: '475820278625154360'
+last_update_time: 1711661212759
+lifecycle_stage: active
+name: XGBoost LOOCV excluded subjects

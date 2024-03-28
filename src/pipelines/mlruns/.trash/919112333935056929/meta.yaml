@@ -1,0 +1,7 @@
+artifact_location: file:///D:/Work/Federated-Network-Intrusion-Detection/src/federated_pipelines/mlruns/919112333935056929
+creation_time: 1711655994873
+experiment_id: '919112333935056929'
+last_update_time: 1711662185837
+lifecycle_stage: deleted
+name: XGBoost_Federated
+tags: {}

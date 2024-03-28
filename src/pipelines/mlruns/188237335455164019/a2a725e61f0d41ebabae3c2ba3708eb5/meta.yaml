@@ -1,0 +1,15 @@
+artifact_uri: file:///D:/Work/Federated-Network-Intrusion-Detection/src/pipelines/mlruns/188237335455164019/a2a725e61f0d41ebabae3c2ba3708eb5/artifacts
+end_time: 1711661988409
+entry_point_name: ''
+experiment_id: '188237335455164019'
+lifecycle_stage: active
+run_id: a2a725e61f0d41ebabae3c2ba3708eb5
+run_name: TabNet_LOOCV_of_0000000000000006
+run_uuid: a2a725e61f0d41ebabae3c2ba3708eb5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1711661864556
+status: 3
+tags: []
+user_id: jakim
