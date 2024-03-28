@@ -1,0 +1,6 @@
+artifact_location: file:///home/bojan-emteq/Work/Federated-Network-Intrusion-Detection/src/pipelines/mlruns/506394253472312595
+creation_time: 1711631397844
+experiment_id: '506394253472312595'
+last_update_time: 1711631397844
+lifecycle_stage: active
+name: TabNet_LOOCV
