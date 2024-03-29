@@ -108,7 +108,7 @@ def TabNet_LOOCV(dataframe: pd.DataFrame, include_subjects=None):
     ]
     if include_subjects:
         list_of_subject = [
-            subject for subject in list_of_subject if subject not in include_subjects
+            subject for subject in list_of_subject if subject in include_subjects
         ]
     for subject in list_of_subject:
         with ml.start_run(run_name=f"TabNet_LOOCV_{subject}"):
@@ -153,17 +153,17 @@ def TabNet_LOOCV(dataframe: pd.DataFrame, include_subjects=None):
 
 if __name__ == "__main__":
     dataframe = pd.read_csv(
-        r"D:\Work\Federated-Network-Intrusion-Detection\src\dataset\processed_dataset\all.csv"
+        "/home/bojan-emteq/Work/Federated-Network-Intrusion-Detection/src/dataset/processed_dataset/all.csv"
     )
     logger.info("Starting the centralized inference pipeline")
-    # ml.set_experiment("XGBoost_LOOCV")
-    # logger.info("Starting the XGBoost LOOCV")
-    # XGBoost_LOOCV(dataframe)
-    # logger.info("Ending the XGBoost LOOCV")
-    # ml.set_experiment("TabNet_LOOCV")
-    # logger.info("Starting the TabNet LOOCV")
-    # TabNet_LOOCV(dataframe)
-    # logger.info("Ending the TabNet LOOCV")
+    ml.set_experiment("XGBoost_LOOCV")
+    logger.info("Starting the XGBoost LOOCV")
+    XGBoost_LOOCV(dataframe)
+    logger.info("Ending the XGBoost LOOCV")
+    ml.set_experiment("TabNet_LOOCV")
+    logger.info("Starting the TabNet LOOCV")
+    TabNet_LOOCV(dataframe)
+    logger.info("Ending the TabNet LOOCV")
     ml.set_experiment("XGBoost LOOCV excluded subjects")
     logger.info("Starting XGBoost LOOCV with excluded subjects")
     XGBoost_LOOCV(dataframe, ALL_LABELS_SUBJECTS)
