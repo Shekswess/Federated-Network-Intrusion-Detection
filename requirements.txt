@@ -1,0 +1,10 @@
+flwr==1.6.0
+matplotlib==3.7.1
+mlflow==2.7.1
+numpy==1.26.4
+pandas==2.2.1
+pytorch_tabnet==4.1.0
+scikit_learn==1.2.1
+seaborn==0.13.2
+torch==2.0.1
+xgboost==2.0.3

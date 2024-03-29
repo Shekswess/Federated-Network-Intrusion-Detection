@@ -1,0 +1,1 @@
+{'mode': 'min', 'patience': 5, 'factor': 0.5, 'min_lr': 1e-05}
